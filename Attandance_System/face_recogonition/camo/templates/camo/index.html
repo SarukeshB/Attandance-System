@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition</title>
+</head>
+<body>
+    <h1>Real-time Face Recognition</h1>
+    <div>
+        <img id="video-feed" src="data:image/jpeg;base64,{{ frame_base64 }}" />
+    </div>
+    <script>
+        setInterval(function() {
+            fetch("{% url 'face_recognition_view' %}")
+                .then(response => response.json())
+                .then(data => {
+                    var base64String = data.frame_base64;
+                    document.getElementById('video-feed').src = "data:image/jpeg;base64," + base64String;
+                });
+        }, 100);  // Update every 100ms
+    </script>
+</body>
+</html>
